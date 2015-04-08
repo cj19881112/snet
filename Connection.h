@@ -17,7 +17,7 @@ public:
 
 	void init(IOLoop *loop, int sockFd);
 
-	void handleEvent(IOLoop *loop, IOEvent ioEvent);
+	void handleEvent(IOLoop *loop, int fd, IOEvent ioEvent);
 	void handleRead();
 	void handleWrite();
 	void sendData(const char *buf, int len);

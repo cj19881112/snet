@@ -1,18 +1,19 @@
-#ifndef _ACCEPTOR_H_
-#define _ACCEPTOR_H_
+#ifndef _CONNECTOR_H_
+#define _CONNECTOR_H_
 
-#include "IOEvent.h"
 #include "IOEventHandler.h"
-#include "InetAddr.h"
+#include "IOEvent.h"
 
+class InetAddr;
 class NewConnectionListener;
+class IOLoop;
 
-class Acceptor : public IOEventHandler {
+class Connector : public IOEventHandler {
 public:
-	Acceptor(int backlog=128);
-	~Acceptor();
-
-	int init(const InetAddr &addr, IOLoop *ioLoop);	
+	Connector(NewConnectionListener *ncl=0)
+		: _newConnectionListener(ncl)
+	{}
+	int connect(const InetAddr &addr, IOLoop *ioLoop);
 	virtual void handleEvent(IOLoop *ioLoop, int fd, IOEvent ioEvent);
 
 	void setNewConnectionListener(NewConnectionListener *ncl)
@@ -23,10 +24,7 @@ public:
 	{
 		return _newConnectionListener;
 	}
-
 private:
-	int _listenFd;
-	int _backlog;
 	NewConnectionListener *_newConnectionListener;
 };
 

@@ -20,7 +20,7 @@ void Connection::init(IOLoop *loop, int sockFd)
 	}
 }
 
-void Connection::handleEvent(IOLoop *loop, IOEvent ioEvent)
+void Connection::handleEvent(IOLoop *loop, int fd, IOEvent ioEvent)
 {
 	if (ioEvent & IO_READ) {
 		handleRead();

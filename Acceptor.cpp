@@ -44,7 +44,7 @@ int Acceptor::init(const InetAddr &addr, IOLoop *ioLoop)
 	return 0;
 }
 
-void Acceptor::handleEvent(IOLoop *ioLoop, IOEvent ioEvent)
+void Acceptor::handleEvent(IOLoop *ioLoop, int fd, IOEvent ioEvent)
 {
 	if (ioEvent & IO_ERROR) {
 		/* 严重错误 */

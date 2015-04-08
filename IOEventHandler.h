@@ -7,7 +7,7 @@ class IOLoop;
 
 class IOEventHandler {
 public:
-	virtual void handleEvent(IOLoop *ioLoop, IOEvent ioEvent) = 0;
+	virtual void handleEvent(IOLoop *ioLoop, int fd, IOEvent ioEvent) = 0;
 };
 
 #endif

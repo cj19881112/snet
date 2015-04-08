@@ -143,7 +143,7 @@ void IOLoop::dispatch(struct epoll_event e)
 	assert(handler && "找到的handler是空的!");
 
 	if (handler) {
-		handler->handleEvent(this, epollEventToIOEvent(events));
+		handler->handleEvent(this, fd, epollEventToIOEvent(events));
 	}
 }
 
