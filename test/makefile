@@ -1,12 +1,15 @@
 CC=clang++
 
-all : clean Discard.out Echo.out
+TARGET=Discard.out EchoSer.out
+
+all : clean $(TARGET)
 
 Discard.out : Discard.cpp ../*.cpp
 	$(CC) -Wall -o $@ $^  -I.. -g
 
-Echo.out : EchoServer.cpp ../*.cpp
+EchoSer.out : EchoServer.cpp ../*.cpp
 	$(CC) -Wall -o $@ $^  -I.. -g
 
+
 clean : 
-	rm -rf Discard.out  Echo.out
+	rm -rf $(TARGET)

@@ -6,6 +6,7 @@ class Connection;
 class ConnectionHandler {
 public:
 	virtual void reset() {}
+	virtual void handleEstablished(Connection *c) {}
 	virtual void handleError(Connection *c) {}
 	virtual void handleClose(Connection *c) {}
 	virtual void handleData(Connection *c, char *buf, int len){}

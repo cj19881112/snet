@@ -12,7 +12,7 @@ class ConnectionHandler;
 
 class Connection : public IOEventHandler {
 public:
-	enum STATE { ST_CONNECTED, ST_CLOSED, ST_ERROR };
+	enum STATE { ST_CONNECTED, ST_CLOSED, ST_ERROR, ST_CLOSED_WAIT };
 	const static int MAX_READ_BUF = 4096;
 
 	void init(IOLoop *loop, int sockFd);
@@ -21,6 +21,7 @@ public:
 	void handleRead();
 	void handleWrite();
 	void sendData(const char *buf, int len);
+	void close();
 
 	void setDisconnectListener(DisconnectListener *disconnectListener)
 	{

@@ -68,9 +68,14 @@ void Connection::handleWrite()
 			_state = ST_ERROR;
 		}
 	} else if (n == _outputBuffer.size()){
-		_outputBuffer.clear();
-		_loop->remove(_sockFd, IO_WRITE);
-		_connectionHandler->handleSendComplete(this);
+		if (_state == ST_CLOSED_WAIT) {
+			_outputBuffer.clear();
+			_state = ST_CLOSED;
+		} else {
+			_outputBuffer.clear();
+			_loop->remove(_sockFd, IO_WRITE);
+			_connectionHandler->handleSendComplete(this);
+		}
 	} else {
 		_outputBuffer = _outputBuffer.substr(n);
 		_loop->add(_sockFd, IO_WRITE);
@@ -82,4 +87,19 @@ void Connection::sendData(const char *buf, int len)
 	_outputBuffer.append(buf, len);
 	_loop->add(_sockFd, IO_WRITE);
 }
+
+void Connection::close()
+{
+	if (_outputBuffer.size() == 0) {
+		_loop->remove(_sockFd);
+		::close(_sockFd);
+		_state = ST_CLOSED;
+		_disconnectListener->disconnect(this);
+	} else {
+		_loop->remove(_sockFd, IO_READ);
+		shutdown(_sockFd, SHUT_RD);
+		_state = ST_CLOSED_WAIT;
+	}
+}
+
 
