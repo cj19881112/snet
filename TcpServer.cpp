@@ -18,6 +18,9 @@ int TcpServer::init(const char *ip, int port, ConnectionHandlerFactory *factory)
 	if (_acceptor.init(InetAddr(ip, port), &_ioLoop) < 0) {
 		return -1;
 	}
+	if (!factory) {
+		return -1;
+	}
 	_acceptor.setNewConnectionListener(this);
 	_factory = factory;
 	return 0;
@@ -40,6 +43,5 @@ void TcpServer::onNewConnection(IOLoop *ioLoop, int clientFd)
 		c->setDisconnectListener(this);
 	}
 	c->init(&_ioLoop, clientFd);
-	c->handleEvent(0,0);
 }
 
